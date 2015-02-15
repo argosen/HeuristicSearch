@@ -181,7 +181,7 @@ class GeneticAlgorithm:
 
         return ind1, ind2
 
-    def setConfiguration(self, population=150, cxpb=0.5, mutpb=0.2, ngen=12):
+    def setConfiguration(self, population=200, cxpb=0.5, mutpb=0.2, ngen=20):
         self.population = population
         self.cxpb = cxpb
         self.mutpb = mutpb

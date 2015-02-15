@@ -146,3 +146,20 @@ class ResultDataModel:
         title('Evaluation results', fontsize=20)
 
         show()
+
+    def getValueMean(self):
+        return self.computation_values.mean()
+
+    def getValueVariance(self):
+        return self.computation_values.var()
+
+    def getValueStdev(self):
+        return math.sqrt(self.computation_values.var())
+
+    def getBestValue(self):
+        best_value_index = np.where(self.computation_values == self.computation_values.min())
+        return self.computation_values[best_value_index]
+
+    def getBestSolution(self):
+        best_value_index = np.where(self.computation_values == self.computation_values.min())
+        return self.computation_solutions[best_value_index]
