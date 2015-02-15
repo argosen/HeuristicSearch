@@ -1,4 +1,5 @@
 __author__ = 'goe'
+from pylab import *
 import numpy as np
 
 class DataModel:
@@ -77,3 +78,71 @@ class DataModel:
         print(self.numberOfElements)
         print(self.distanceMatrix)
         print(self.flowMatrix)
+
+
+
+
+class ResultDataModel:
+
+    # computation_values = np.array([])
+    # computation_solutions = np.array([[]])
+    # computation_evaluations = np.array([])
+    def __init__(self, filename):
+        self.filename = filename
+        self.computation_values = np.array([])
+        self.computation_solutions = np.array([[]])
+        self.computation_evaluations = np.array([])
+
+    def setValueList(self, valueList):
+        self.computation_values = valueList
+
+    def setSolutionList(self, solutionList):
+        self.computation_solutions = solutionList
+
+    def setEvaluationNumberList(self, evalutationNumberList):
+        self.computation_evaluations = evalutationNumberList
+
+    def loadDataFile(self):
+        # load data file
+        # store block sizes
+        #self.computation_values = genfromtxt(self.filename + "_values.txt")
+        #self.computation_solutions = genfromtxt(self.filename + "_solutions.txt")
+        #self.computation_evaluations = genfromtxt(self.filename + "_evaluations.txt")
+
+        f = file(self.filename + ".npy","rb")
+
+        self.computation_values = np.load(f)
+        self.computation_solutions = np.load(f)
+        self.computation_evaluations = np.load(f)
+
+        f.close()
+
+        print("Data loaded from : " + self.filename + ".npy")
+
+    def saveDataFile(self):
+        # save data file
+        # store block sizes
+        #savetxt(self.filename + "_values.txt", self.computation_values)
+        #savetxt(self.filename + "_solutions.txt", self.computation_solutions)
+        #savetxt(self.filename + "_evaluations.txt", self.computation_evaluations)
+
+        f = file(self.filename + ".npy","wb")
+
+        np.save(f, self.computation_values)
+        np.save(f, self.computation_solutions)
+        np.save(f, self.computation_evaluations)
+
+        f.close()
+
+        print("Data saved in : " + self.filename)
+
+    def plotResultValues(self):
+        axes([0.1, 0.15, 0.8, 0.75])
+        plot(self.computation_values.tolist())
+
+        #horizontalLineInValue = 5
+        #plot([0,10],[horizontalLineInValue,horizontalLineInValue])
+
+        title('Evaluation results', fontsize=20)
+
+        show()
