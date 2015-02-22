@@ -104,8 +104,8 @@ def runLocalSearchAlgorithm(currentFile, config):
 
 
 # localSearch = ls.LocalSearch("test.txt")
-#fileList = ["Cebe.qap.n10.1", "Cebe.qap.n20.1", "Cebe.qap.n30.1", "Cebe.qap.n40.1", "Cebe.qap.n50.1", "Cebe.qap.n60.1", "Cebe.qap.n70.1", "Cebe.qap.n80.1", "Cebe.qap.n90.1", "Cebe.qap.n100.1",]
-fileList = ["Cebe.qap.n10.1"]
+fileList = ["Cebe.qap.n10.1", "Cebe.qap.n20.1", "Cebe.qap.n30.1", "Cebe.qap.n40.1", "Cebe.qap.n50.1", "Cebe.qap.n60.1", "Cebe.qap.n70.1", "Cebe.qap.n80.1", "Cebe.qap.n90.1", "Cebe.qap.n100.1",]
+#fileList = ["Cebe.qap.n10.1"]
 gaConfigurations = [1, 2, 3]
 lsConfigurations = [neigh_type.Swap, neigh_type.TwoOpt]
 searchRange = 15 # Multi-start parameter

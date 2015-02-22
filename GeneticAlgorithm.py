@@ -212,7 +212,7 @@ class GeneticAlgorithm:
         # El algoritmo evolutivo simple utiliza los siguientes parametros
         # Probabilidad de cruzamiento 0.5
         # Probabilidad de aplicar el operador de mutacion 0.2
-        # Numero de generaciones 10
+        # Numero de generaciones 15
         if verbose:
             stats = tools.Statistics(lambda ind: ind.fitness.values)
             stats.register("avg", np.mean)
