@@ -49,7 +49,7 @@ class Neighbors:
         n_neighbors = n-1           # Numero de vecinos
         neighbors = np.zeros((n_neighbors, n)) # Guardaremos todos los vecinos en neighbors
         ind = 0
-        for i in range(0, n_neighbors):
+        for i in range(0, n):
             if i != target:
                 neighbors[ind, :] = perm
                 neighbors[ind, i] = perm[target]
