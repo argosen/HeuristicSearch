@@ -53,6 +53,8 @@ def wilcoxonTest(aResultList, bResultList, plotResult=True):
         print('R- = '+str(r_minus))
         print('T = '+str(T))
 
+    return z
+
 
 fileList = ["Cebe.qap.n10.1", "Cebe.qap.n20.1", "Cebe.qap.n30.1", "Cebe.qap.n40.1", "Cebe.qap.n50.1", "Cebe.qap.n60.1", "Cebe.qap.n70.1", "Cebe.qap.n80.1", "Cebe.qap.n90.1", "Cebe.qap.n100.1",]
 lsResults = np.array([])
@@ -71,4 +73,4 @@ else:
     gaResults = np.array([10, 21, 23, 32, 12, 13, 14, 12, 43, 23])
     lsResults = np.array([3, 1, 50, 3, 24, 42, 25, 6, 6, 14])
 
-wilcoxonTest(lsResults, gaResults)
+z = wilcoxonTest(lsResults, gaResults)
