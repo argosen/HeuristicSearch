@@ -92,6 +92,7 @@ class ResultDataModel:
         self.computation_values = np.array([])
         self.computation_solutions = np.array([[]])
         self.computation_evaluations = np.array([])
+        self.computation_time = np.array([])
 
     def setValueList(self, valueList):
         self.computation_values = valueList
@@ -101,6 +102,9 @@ class ResultDataModel:
 
     def setEvaluationNumberList(self, evalutationNumberList):
         self.computation_evaluations = evalutationNumberList
+
+    def setTimeList(self, timeList):
+        self.computation_time = timeList
 
     def loadDataFile(self):
         # load data file
@@ -114,6 +118,7 @@ class ResultDataModel:
         self.computation_values = np.load(f)
         self.computation_solutions = np.load(f)
         self.computation_evaluations = np.load(f)
+        self.computation_time = np.load(f)
 
         f.close()
 
@@ -131,6 +136,7 @@ class ResultDataModel:
         np.save(f, self.computation_values)
         np.save(f, self.computation_solutions)
         np.save(f, self.computation_evaluations)
+        np.save(f, self.computation_time)
 
         f.close()
 
@@ -157,9 +163,18 @@ class ResultDataModel:
         return math.sqrt(self.computation_values.var())
 
     def getBestValue(self):
-        best_value_index = np.where(self.computation_values == self.computation_values.min())
-        return self.computation_values[best_value_index]
+        best_value_index = np.where(self.computation_values == self.computation_values.min())[0]
+        if len(best_value_index) == 1:
+            return self.computation_values[best_value_index]
+        else:
+            return self.computation_values[best_value_index[0]]
 
     def getBestSolution(self):
-        best_value_index = np.where(self.computation_values == self.computation_values.min())
-        return self.computation_solutions[best_value_index]
+        best_value_index = np.where(self.computation_values == self.computation_values.min())[0]
+        if len(best_value_index) == 1:
+            return self.computation_solutions[best_value_index]
+        else:
+            return self.computation_solutions[best_value_index[0]]
+
+    def getAverageTime(self):
+        return sum(self.computation_time)/len(self.computation_time)

@@ -40,19 +40,21 @@ class Neighbors:
         return neighbors
 
     # Swap crea una vecindad basada en el operador de intercambio entre posiciones
-    # Todas las permutaciones que se pueden obtener como un swap entre la primera posicion
+    # Todas las permutaciones que se pueden obtener como un swap entre una posicion
     # y cualquiera de las restantes estan en la vecindad
     @staticmethod
     def swap(perm):
         n = perm.shape[0]
+        target = np.random.randint(n, size=1)[0]
         n_neighbors = n-1           # Numero de vecinos
-        neighbors = np.zeros((n_neighbors,n)) # Guardaremos todos los vecinos en neighbors
+        neighbors = np.zeros((n_neighbors, n)) # Guardaremos todos los vecinos en neighbors
         ind = 0
-        for i in range(1,n):
-              neighbors[ind,:] = perm
-              neighbors[ind,i] = perm[0]
-              neighbors[ind,0] = perm[i]
-              ind = ind + 1
+        for i in range(0, n_neighbors):
+            if i != target:
+                neighbors[ind, :] = perm
+                neighbors[ind, i] = perm[target]
+                neighbors[ind, target] = perm[i]
+                ind += 1
         return neighbors
 
     # Complement crea una vecindad basada en el operador de complemento entre posiciones
