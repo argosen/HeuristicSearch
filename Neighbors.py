@@ -25,8 +25,12 @@ class Neighbors:
     # TwoOpt crea una vecindad basada en el operador two-opt de forma determinista
     # Todas las permutaciones que se pueden obtener con two-opt estan en la vecindad
     @staticmethod
-    def twoOpt(perm):
+    def twoOpt(perm, maxNeighbor=0):
         n = perm.shape[0]
+
+        if maxNeighbor > 0:
+            n = maxNeighbor
+
         n_neighbors = n*(n-1)/2 - n           # Numero de vecinos
         neighbors = np.zeros((n_neighbors, n)) # Guardaremos todos los vecinos en neighbors
         ind = 0
@@ -43,8 +47,12 @@ class Neighbors:
     # Todas las permutaciones que se pueden obtener como un swap entre una posicion
     # y cualquiera de las restantes estan en la vecindad
     @staticmethod
-    def swap(perm):
+    def swap(perm, maxNeighbor=0):
         n = perm.shape[0]
+
+        if maxNeighbor > 0:
+            n = maxNeighbor
+
         target = np.random.randint(n, size=1)[0]
         n_neighbors = n-1           # Numero de vecinos
         neighbors = np.zeros((n_neighbors, n)) # Guardaremos todos los vecinos en neighbors

@@ -56,7 +56,7 @@ def runGaAlgorithm(currentFile, config):
     outputModel.saveDataFile()
 
 
-def runLocalSearchAlgorithm(currentFile, config):
+def runLocalSearchAlgorithm(currentFile):
     localSearch = ls.LocalSearch("./Instances/"+currentFile)
 
     computation_values = np.array([])
@@ -68,7 +68,7 @@ def runLocalSearchAlgorithm(currentFile, config):
     for iteration in range(0, repetitions):
         start_time = time.time()
         # Run the local search once
-        [best_val, best_sol, best_evaluations] = localSearch.solve(searchRange, config) #neigh_type.Swap
+        [best_val, best_sol, best_evaluations] = localSearch.solve(searchRange)
 
         elapsed_time = time.time() - start_time
 
@@ -107,14 +107,13 @@ def runLocalSearchAlgorithm(currentFile, config):
 fileList = ["Cebe.qap.n10.1", "Cebe.qap.n20.1", "Cebe.qap.n30.1", "Cebe.qap.n40.1", "Cebe.qap.n50.1", "Cebe.qap.n60.1", "Cebe.qap.n70.1", "Cebe.qap.n80.1", "Cebe.qap.n90.1", "Cebe.qap.n100.1",]
 #fileList = ["Cebe.qap.n10.1"]
 gaConfigurations = [1, 2, 3]
-lsConfigurations = [neigh_type.Swap, neigh_type.TwoOpt]
 searchRange = 15 # Multi-start parameter
 repetitions = 15 # times to compute mean and variance
 
 # Local search computation
 for currentFile in fileList:
     # for config in lsConfigurations:
-    runLocalSearchAlgorithm(currentFile, neigh_type.TwoOpt)
+    runLocalSearchAlgorithm(currentFile)
     runGaAlgorithm(currentFile, 3)
 
 

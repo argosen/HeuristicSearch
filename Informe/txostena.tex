@@ -42,54 +42,80 @@ f(\sigma)=\sum^n_{i=1}\sum^n_{j=1}d_{\sigma(i)\sigma(j)}f_{ij}
 \end{equation}
 
 \section{Propuestas de solución basadas en búsqueda local}
-Como se ha presentado anteriormente, el algoritmo implementado para la búsqueda local es el \textit{Hill Climbing}. Es un algoritmo de búsqueda local sencillo. Se basa en analizar los resultados vecinos de una muestra, en busca de un resultado mejor que el actual. Esto se hace iterativamente, por lo que el caer en un óptimo local es muy probable. Para minimizar el caer en óptimos locales, se hacen varias reinicializaciones (conocido como \textit{multi start}) utilizando el mejor de los resultados como respuesta final.
+Como se ha presentado anteriormente, el algoritmo implementado para la búsqueda local es el \textit{Hill Climbing}. Es un algoritmo de búsqueda local sencillo. Se basa en analizar los resultados vecinos de una muestra, en busca de un resultado mejor que el actual. Esto se hace iterativamente, por lo que el caer en un óptimo local es muy probable. Para minimizar el caer en óptimos locales, se toman varias medidas.
 
-El pseudo-código para este algoritmo sería el siguiente:
+La primera medida se trata hacen varias reinicializaciones (conocido como \textit{multi start}) utilizando el mejor de los resultados como respuesta final. Dentro de cada iteración, y con el fin de salir de un mínimo local, se generan varias muestras aleatorias y se compara si alguna de ellas es mejor que la candidata actual.
+
+El pseudo-código general para este algoritmo sería el siguiente:
 
 \begin{algorithm}[H]
  \KwData{cantidad de 'start'-s, función de coste}
  \KwResult{valor de error mínimo encontrado}
  \For{cada 'start'}{
  generar permutación inicial con función aleatoria\;
- \While{se ha encontrado mejor permutación}{
-  calcular vecindario\;
-  \For{cada vecino}{
-  	calcular valor del vecino\;
-  	\If{mejora}{
+ \While{no se ha encontrado mínimo local}{
+  escoger candidato\;
+  \While{no encontremos mejor vecino}{
+	  calcular nuevo vecino\;
+	  evaluar vecino\;
+	  \If{nuevo vecino mejora}{
    		guardar nuevo vecino como actual\;
-   		se ha encontrado mejor permutación\;
-   	}
+   		no se ha encontrado mínimo local\;
+   		}
   }
  }
  }
  devolver valor de mejor permutación encontrada
- \caption{Pseudocódigo de \textit{Hill Climbing}}
+ \caption{Pseudocódigo de \textit{Hill Climbing} modificado.}
 \end{algorithm}
 
-Este algoritmo tiene pocos parámetros para configurar, lo que simplifica su configuración. El único parámetro que es necesario definir es la cantidad de inicializaciones a hacer. No obstante, es necesario definir el método de calcular los vecindarios, y hay que escoger uno que se adecue al problema. 
+Este algoritmo tiene pocos parámetros para configurar, lo que simplifica su configuración. El único parámetro que es necesario definir para su implementación general es la cantidad de inicializaciones a hacer. No obstante, y con el fin de reducir el tiempo de ejecución, se definen varios límites para la ejecución. Estos límites se listan en la tabla \ref{tab:lsParameters}. Además de esta configuración, es necesario definir el método de calcular los vecindarios, y hay que escoger uno que se adecue al problema. 
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c||c|}
+\hline
+Parámetro & Valor \\
+\hline \hline
+Tamaño multistart & 15 \\
+\hline
+Número máximo de evaluaciones & 150 \\
+\hline
+Número de muestras aleatorias tras mínimo local & 3\\
+\hline
+Número máximo de vecinos analizados & Todos\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Lista de parámetros de configuración para el algoritmo de búsqueda local.}
+\label{tab:lsParameters}
+\end{table}
 
 En este aspecto se han analizado dos sistemas de vecinos diferentes: \textit{Swap} y \textit{2-opt}.
-El sistema de vecinos \textit{Swap} consiste en generar vecinos cambiando un elemento de la lista con otro. Si intercambiamos un elemento al azar con el resto, generamos un vecindario con \textit{n} vecinos.
+El sistema de vecinos \textit{Swap} consiste en generar vecinos cambiando un elemento de la lista con otro. Si intercambiamos un elemento al azar con cada uno de los demás, generamos un vecindario con \textit{n} vecinos.
 El sistema de vecinos \textit{2-opt} consiste en intercambiar dos elementos en la lista de elementos. Si se tienen en cuenta todas las posibles permutaciones, se consigue un vecindario de \textit{k} elementos, donde \textit{k} se calcula con la ecuación \ref{eq:2optNeigbor}.
-
-Los experimentos realizados muestran que 
 
 \begin{equation}
 \label{eq:2optNeigbor}
 k = \frac{n*(n-1)}{2}-n
 \end{equation}
 
-En los experimentos, se ha comprobado que el algoritmo \textit{2-Opt} es más efectivo a la hora de acercarse a la solución óptima. No obstante, el tiempo de computo también es significativamente mayor que el del método \textit{Swap}. A pesar de esta desventaja, se ha optado por utilizar el método \textit{2-Opt}.
+En los experimentos, se ha comprobado que el algoritmo \textit{2-Opt} es más efectivo a la hora de acercarse a la solución óptima, pero el tiempo de computo también es significativamente mayor que el del método \textit{Swap}. Por ello, se ha optado por utilizar el método \textit{Swap}, modificando la ejecución para que pare de calcular el vecindario en el momento en el que se encuentre un vecino que mejore el valor actual.
 
-\begin{figure}[h]
-\centering
-\includegraphics[scale=0.4]{optSwapComparative.png} 
-\caption{Comparativa entre 2-Opt y Swap, con 30 repeticiones y cogiendo los mejores resultados en cada una.}
+\begin{figure}[!htb]
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{optSwapComparative.png}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{optSwapComparative_2.png}
+\endminipage\hfill
+\minipage{0.32\textwidth}
+  \includegraphics[width=\linewidth]{optSwapComparative_3.png}
+\endminipage
+\caption{3 ejecuciones comparativas entre 2-Opt y Swap, con 30 repeticiones cada una y cogiendo los mejores resultados en cada una. La línea vertical representa el valor mínimo para cada algoritmo, y la curva representa la distribución normal teniendo en cuenta la media y la varianza de los mejores resultados de las 30 ejecuciones.}
 \label{fig:optSwapComparison}
 \end{figure}
 
-
-% Añadir la configuración escogida
 
 \section{Propuestas de solución basadas en algoritmos poblacionales}
 El algoritmo poblacional implementado es un algoritmo genético. Este algoritmo se basa en las teorías clásicas de la evolución darwiniana como base para generar una serie de iteraciones que generan una población mejor que la generación anterior.
@@ -139,7 +165,7 @@ La función de mutación escogida es la de intercambiar 2 elementos del individu
 Esta fase añade un elemento a configurar, que es la probabilidad de mutación de un individuo.
 
 \subsection{Configuración final}
-A diferencia de el algoritmo de \textit{Hill Climbing}, este tipo de algoritmos tiene más parámetros que definir. La tabla \ref{tab:gaParameters} lista los parámetros escogidos para este algoritmo.
+A diferencia del algoritmo de \textit{Hill Climbing}, este tipo de algoritmos tiene más parámetros que definir. La tabla \ref{tab:gaParameters} lista los parámetros escogidos para este algoritmo.
 
 \begin{table}
 \begin{center}
@@ -164,8 +190,6 @@ Factor de cruce & 0.5 \\
 \end{table}
 
 Se ha definido el número de generaciones para que sea el mismo que la cantidad de iteraciones que se realizan en el algoritmo de búsqueda local. En este sentido, tanto el algoritmo de búsqueda local realizará $n$ iteraciones, y el algoritmo genético creará a su vez $n$ generaciones para lograr el resultado final. 
-
-En el caso de la búsqueda local, se escoge el mejor valor de todas las iteraciones. En el caso de los algoritmos genéticos, la última generación contiene por definición el mejor de los valores calculados. De esta manera, igualamos la cantidad de ciclos de cada uno, y podemos comparar los resultados y los tiempos de ejecución de ambos algoritmos.
 
 \section{Experimentación}
 
