@@ -5,6 +5,7 @@ import dataModel as dm
 
 def wilcoxonTest(aResultList, bResultList, plotResult=True):
     # compute diff
+    diff = np.array([])
     for i in range(len(gaResults)):
         diff = np.append(diff, bResultList[i]-aResultList[i])
     absDiff = abs(diff)
@@ -32,15 +33,15 @@ def wilcoxonTest(aResultList, bResultList, plotResult=True):
     r_minus = 0
     for i in range(tableSize):
         if diff[i] <= 0:
-            r_minus += diff[i]
+            r_minus += rank[i]
 
         if diff[i] >= 0:
-            r_plus += diff[i]
+            r_plus += rank[i]
 
     # get min
     T = min(r_plus, r_minus)
     N = tableSize
-    z = (T - (1/4) * N * (N+1)) / np.sqrt((1/24) * N * (N+1) * (2*N+1))
+    z = (T - (1/4) * N * (N+1)) / np.sqrt((1./24.) * N * (N+1) * ((2*N)+1))
 
     # print table
     if plotResult:
@@ -62,15 +63,19 @@ gaResults = np.array([])
 diff = np.array([])
 
 # Generate table
-simulate = True
+simulate = False
 if not simulate:
     for currentFile in fileList:
         gaModel = dm.ResultDataModel("./solutions/"+currentFile+"_ga_solutions")
         lsModel = dm.ResultDataModel("./solutions/"+currentFile+"_ls_solutions")
-        gaResults = np.append(gaResults, gaModel.getValueMean())
+        lsModel.loadDataFile()
+        gaModel.loadDataFile()
         lsResults = np.append(lsResults, lsModel.getValueMean())
+        gaResults = np.append(gaResults, gaModel.getValueMean())
+
 else:
     gaResults = np.array([10, 21, 23, 32, 12, 13, 14, 12, 43, 23])
     lsResults = np.array([3, 1, 50, 3, 24, 42, 25, 6, 6, 14])
 
 z = wilcoxonTest(lsResults, gaResults)
+print("z = " + str(z))

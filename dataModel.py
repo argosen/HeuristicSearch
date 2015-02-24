@@ -113,7 +113,7 @@ class ResultDataModel:
         #self.computation_solutions = genfromtxt(self.filename + "_solutions.txt")
         #self.computation_evaluations = genfromtxt(self.filename + "_evaluations.txt")
 
-        f = file(self.filename + ".npy","rb")
+        f = file(self.filename + ".npy", "rb")
 
         self.computation_values = np.load(f)
         self.computation_solutions = np.load(f)
