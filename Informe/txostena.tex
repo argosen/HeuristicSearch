@@ -192,12 +192,183 @@ Factor de cruce & 0.5 \\
 Se ha definido el número de generaciones para que sea el mismo que la cantidad de iteraciones que se realizan en el algoritmo de búsqueda local. En este sentido, tanto el algoritmo de búsqueda local realizará $n$ iteraciones, y el algoritmo genético creará a su vez $n$ generaciones para lograr el resultado final. 
 
 \section{Experimentación}
+Para los experimentos se han utilizado 10 sets de datos. Cada uno de estos sets de datos contiene las matrices de distancia y coste para un número diferente de fábricas/localizaciones (10, 20, 30, 40, 50, 60, 70, 80, 90, 100). Se ha lanzado un cálculo utilizando las configuraciones descritas en los apartados anteriores. 
 
+El código utilizado para estos experimentos se puede encontrar en la dirección: \textbf{https://github.com/argosen/HeuristicSearch}. Se compone de varias clases programadas en Python, utilizando las librerías matemáticas disponibles.
+
+Para calcular el valor final, se han lanzado 15 repeticiones de cada test (algoritmo y set de datos). Con estos datos se ha sacado el valor medio y la varianza de los datos para tratar de minimizar la posible variación de los resultados (ya que no son algoritmos deterministas).
+
+El calculo total ha tardado al rededor de 3 horas en una computadora de potencia media. Los resultados obtenidos se resumen en las tablas \ref{tab:resultadosLS} y \ref{tab:resultadosGA}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c||c|c|c|}
+\hline
+Num Fabricas & Media & Varianza & Mejor Valor \\
+\hline
+10 & 5399476.0 & 199189949810.0 &  4778938.\\
+\hline
+20 & 33523525.0 & 5.99484002705e+12 &  29813728.\\
+\hline
+30 & 158246124.8 & 2.30578406503e+13 &   1.48447493e+08\\
+\hline
+40 & 255631830.133 & 4.59699076885e+13 &   2.42247900e+08\\
+\hline
+50 & 419198346.333 & 8.60109726003e+13 &   3.94165092e+08\\
+\hline
+60 & 703141309.467 & 1.14463849179e+14 &   6.85002147e+08\\
+\hline
+70 & 1028622211.93 & 5.02766108189e+14 &   9.89590035e+08\\
+\hline
+80 & 1363689135.67 & 3.50846047056e+14 &   1.33785525e+09\\
+\hline
+90 & 1772671426.8 & 1.02377517371e+15 &   1.69293611e+09\\
+\hline
+100 & 2261489384.33 & 4.5022765545e+14 &   2.23168536e+09\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Resultados para algoritmo de Búsqueda Local.}
+\label{tab:resultadosLS}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c||c|c|c|}
+\hline
+Num Fabricas & Media & Varianza & Mejor Valor  \\
+\hline
+10 & 4772991.66667 & 286804247468.0 &  3971134.\\
+\hline
+20 & 34040886.6667 & 6.06510712846e+12 &  28956775.\\
+\hline
+30 & 170979720.6 & 4.28131716062e+13 &   1.57862222e+08\\
+\hline
+40 & 273690367.867 & 3.14248364801e+13 &   2.61168249e+08\\
+\hline
+50 & 460133962.067 & 1.08218388337e+14 &   4.39892249e+08\\
+\hline
+60 & 761832148.733 & 1.8909123247e+14 &   7.39502280e+08\\
+\hline
+70 & 1115317385.8 & 1.71811158722e+14 &   1.08579442e+09\\
+\hline
+80 & 1446955224.87 & 3.40196580743e+14 &   1.41524800e+09\\
+\hline
+90 & 1894886012.67 & 2.72508094515e+14 &   1.86781759e+09\\
+\hline
+100 & 2362333033.0 & 1.01130826717e+15 &   2.28023394e+09\\
+\hline
+\end{tabular}
+\end{center}
+\caption{Resultados para resultados de Algoritmos Genéticos.}
+\label{tab:resultadosGA}
+\end{table}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c||c|}
+\hline
+Num Fabricas & Valor Mínimo conocido \\
+\hline \hline
+10 & 3971134 \\
+\hline
+20 & 17412718 \\
+\hline
+30 & 95424438 \\
+\hline
+40 & 150786632 \\
+\hline
+50 & 254375088 \\
+\hline
+60 & 442535568 \\
+\hline
+70 & 661277026 \\
+\hline
+80 & 852010960 \\
+\hline
+90 & 1162218930 \\
+\hline
+100 & 1431932318 \\
+\hline
+
+\end{tabular}
+\end{center}
+\caption{Los mejores valores conocidos para cada dataset.}
+\label{tab:bestKnownValues}
+\end{table}
+
+
+En las tablas se puede ver la media de los resultados, la varianza y el mejor valor entre las 15 ejecuciones. Estos datos se pueden comparar con los valores de referencia de los datasets, listados en la tabla \ref{tab:bestKnownValues}. Con estos datos, podemos comparar el error (aproximado) de cada algoritmo. En la figura \ref{fig:errorComparison} podemos ver, que en datasets pequeños el error de los algoritmos genéticos es menor, pero enseguida el error aumenta con el aumento de los elementos a manejar.
+
+\begin{figure}[!htb]
+\minipage{0.47\textwidth}
+  \includegraphics[width=\linewidth]{errorWithBest.png}
+\endminipage\hfill
+\minipage{0.47\textwidth}
+  \includegraphics[width=\linewidth]{errorWithBestSmall.png}
+\endminipage
+\caption{A la izquierda, una representación comparativa de los errores de los algoritmos para todos los data sets. A la derecha, una representación comparativa de los errores de los algoritmos para los primeros 4 data sets.}
+\label{fig:errorComparison}
+\end{figure}
+
+Otro indicador que se ha tenido en cuenta a la hora de las mediciones es el tiempo de ejecución. En la figura \ref{fig:timeComparison} podemos ver una comparativa de estos valores. Se puede ver que el algoritmo de búsqueda local tarda menos con muestras pequeñas, pero el tiempo aumenta considerablemente a medida que las muestras son mayores.
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.4]{elapsedTime.png} 
+\caption{Comparación de los tiempos de computo medios por iteración.}
+\label{fig:timeComparison}
+\end{figure}
+
+También se ha realizado un test de hipótesis, utilizando los datos de los experimentos. Los datos utilizados se listan en la tabla \ref{tab:wilcoxonTest}.
+
+\begin{table}
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+LS	 & 	GA	 &	diff	&	Rank	 \\
+\hline
+5399476.0	 & 	4772991.66667	 & 	-626484.333333	 &	2.0	 \\
+\hline
+33523525.0	 & 	34040886.6667	 &	517361.666667	 &	1.0	 \\
+\hline
+158246124.8	 &	170979720.6	 & 	12733595.8	 & 	3.0	 \\
+\hline
+255631830.133	 & 	273690367.867	 & 	18058537.7333	 & 	4.0	 \\
+\hline
+419198346.333	 & 	460133962.067	 & 	40935615.7333	 & 	5.0	 \\
+\hline
+703141309.467	 & 	761832148.733	 &	58690839.2667	 & 	6.0	 \\
+\hline
+1028622211.93	 & 	1115317385.8	 & 	86695173.8667	 & 	8.0	 \\
+\hline
+1363689135.67	 &	1446955224.87	 &	83266089.2	 & 	7.0	 \\
+\hline
+1772671426.8	 & 	1894886012.67	 &	122214585.867	 &	10.0	 \\
+\hline
+2261489384.33	 & 	2362333033.0	 & 	100843648.667	 &	9.0	 \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Lista de valores utilizados para el test de Wilcoxon. Las primeras dos columnas listan los datos medios de los resultados. La tercera columna muestra las diferencias entre ellos, y la tercera el ranking de menor a mayor valor absoluto de las diferencias.}
+\label{tab:wilcoxonTest}
+\end{table}
+
+% resumir el resultado del test de hipotesis
+Para el test de hipótesis, se define como $H_0$ el hecho de que los dos algoritmos son iguales, y se define un 5\% de margen de error. Después de calcular el valor $T=2.0$ utilizando los datos de la tabla, se ha calculado el valor $z$ siguiendo la ecuación \ref{eq:wilcoxonTestFormulaZ}.
+
+\begin{equation}
+z=\dfrac{T-\dfrac{1}{4}N(N+1)}{\sqrt{\dfrac{1}{24}N(N+1)(2N+1)}}
+\label{eq:wilcoxonTestFormulaZ}
+\end{equation}
+
+El resultado es que $z=0.2038$, por lo que buscando el valor en la tabla de valores ($0.5793=>57.93\%$), se puede deducir que el 5\% de error se supera con creces, por lo que no se cumple $H_0$.
 
 \section{Conclusiones}
+Aunque con al configuración propuesta los algoritmos genéticos parecen funcionar mejor con sets de datos pequeños, a medida en que estos aumentan, el error se va haciendo mayor. Aumentando las poblaciones o el número de generaciones los resultados podrían mejorar, pero también aumenta el tiempo de computo, por lo que la optimización de parámetros debe de ser cuidadosa.
 
+Para limitar el tiempo de procesado, se han tenido que acotar tanto la cantidad de vecinos a analizar como la población y cantidad de generaciones, empeorando los resultados de la búsqueda.
 
-\bibliography{referencies}{}
-\bibliographystyle{plain}
+Para mejorar los resultados, habría que optimizar los parámetros de los algoritmos por separado.
 
 \end{document}

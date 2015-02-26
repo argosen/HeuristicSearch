@@ -170,7 +170,33 @@ for ls, ga, best in zip(lsDataList, gaDataList, bestKnownSolution):
         print('|\t' + str(lsVal) + ' (' + str(lsVal-best) + ')\t|\t' + str(gaVal) + ' (' + str(gaVal-best) + ')\t|\t' + str(best) + '\t|')
     print('|----------------------------------------------------------|')
 
+
+print('|\tFile\t||\tLS Mean Value\t|\tLS Variance\t|\tLS Min Value\t||\tGA Mean Value\t|\tGA Variance\t|\tGA Min Value\t|')
+for ls, ga, best, numFactories in zip(lsDataList, gaDataList, bestKnownSolution, range(10, 110, 10)):
+    print('|\t' + str(numFactories) + '\t||\t' + str(ls.getValueMean()) + '\t|\t' + str(ls.getValueVariance()) + '\t|\t' + str(ls.getBestValue()) + '\t||\t' + str(ga.getValueMean()) + '\t|\t' + str(ga.getValueVariance()) + '\t|\t' + str(ga.getBestValue()) + '\t|')
+print('|----------------------------------------------------------|')
+
+
+print('\\begin{tabular}{|c||c|c|c|}')
+print('\hline')
+print('Num Fabricas & Media & Varianza & Mejor Valor \\\\')
+for ls, ga, best, numFactories in zip(lsDataList, gaDataList, bestKnownSolution, range(10, 110, 10)):
+    print('\hline')
+    print(str(numFactories) + ' & ' + str(ls.getValueMean()) + ' & ' + str(ls.getValueVariance()) + ' & ' + str(ls.getBestValue()) + '\\\\')
+print('\hline')
+print('\\end{tabular}')
+
+print('\\begin{tabular}{|c||c|c|c|}')
+print('\hline')
+print('Num Fabricas & Media & Varianza & Mejor Valor  \\\\')
+for ls, ga, best, numFactories in zip(lsDataList, gaDataList, bestKnownSolution, range(10, 110, 10)):
+    print('\hline')
+    print(str(numFactories) + ' & ' + str(ga.getValueMean()) + ' & ' + str(ga.getValueVariance()) + ' & ' + str(ga.getBestValue()) + '\\\\')
+print('\hline')
+print('\\end{tabular}')
+
 # error
+showMinErrorLine( gaDataList[0:4], lsDataList[0:4], bestKnownSolution[0:4] )
 showMinErrorLine( gaDataList, lsDataList, bestKnownSolution )
 showMeanErrorLine( gaDataList, lsDataList, bestKnownSolution )
 
