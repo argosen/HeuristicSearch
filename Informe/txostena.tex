@@ -14,7 +14,7 @@
 \maketitle
 
 \begin{abstract}
-En este trabajo se presenta una comparativa entre dos diferentes algoritmos de búsqueda heuristica. El primero, denominado \textit{Hill Climbing}, es un algoritmo basado en búsqueda local, que se ha implementado utilizando múltiples inicializaciones (\textit{multi-start}) para tratar de evitar los mínimos locales. Como segundo algoritmo para la comparación se ha escogido un algoritmo genético, que entra dentro de los algoritmos tipificados como poblacionales. En el apartado experimental, se han analizado las posibles configuraciones para la búsqueda local, y se ha hecho una comparación utilizando un test de hipótesis de Wilcoxon.
+En este trabajo se presenta una comparativa entre dos diferentes algoritmos de búsqueda heuristica. El primero, denominado \textit{Hill Climbing}, es un algoritmo basado en búsqueda local, que se ha implementado utilizando múltiples inicializaciones (\textit{multi-start}) para tratar de evitar los mínimos locales. Como segundo algoritmo para la comparación se ha escogido un algoritmo genético, que entra dentro de los algoritmos tipificados como poblacionales. En el apartado experimental, se han analizado una de las posibles configuraciones para la búsqueda local, y se ha hecho una comparación utilizando un test de hipótesis de Wilcoxon.
 \end{abstract}
 
 \section{Problema de asignación cuadrática}
@@ -100,7 +100,7 @@ El sistema de vecinos \textit{2-opt} consiste en intercambiar dos elementos en l
 k = \frac{n*(n-1)}{2}-n
 \end{equation}
 
-En los experimentos, se ha comprobado que el algoritmo \textit{2-Opt} es más efectivo a la hora de acercarse a la solución óptima, pero el tiempo de computo también es significativamente mayor que el del método \textit{Swap}. Por ello, se ha optado por utilizar el método \textit{Swap}, modificando la ejecución para que pare de calcular el vecindario en el momento en el que se encuentre un vecino que mejore el valor actual.
+En los experimentos, se ha comprobado que el algoritmo \textit{2-Opt} es más efectivo a la hora de acercarse a la solución óptima, pero el tiempo de computo también es significativamente mayor que el del método \textit{Swap}. Por ello, se ha optado por utilizar el método \textit{Swap}, modificando la ejecución para que pare de calcular el vecindario en el momento en el que se encuentre un vecino que mejore el valor actual. 
 
 \begin{figure}[!htb]
 \minipage{0.32\textwidth}
