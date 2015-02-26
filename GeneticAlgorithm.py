@@ -205,7 +205,7 @@ class GeneticAlgorithm:
         return best_val, best_sol, best_evaluations
 
     def runGeneticAlgorithm(self):
-        # La poblacion tendra 150 individuos
+        # La poblacion máxima tendra 150 individuos
         pop = self.toolbox.population(n=self.population)
 
         verbose = False
